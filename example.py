@@ -4,7 +4,7 @@ Example usage of YouTube Transcript Fetcher
 This script demonstrates how to use the youtube_transcript module.
 """
 
-from youtube_transcript import YouTubeTranscriptFetcher, fetch_transcript
+from youtube_transcript import YouTubeTranscriptFetcher, fetch_transcript, save_transcript_to_downloads
 
 
 def example_basic_usage():
@@ -110,6 +110,90 @@ def example_video_id_formats():
         print(f"Extracted ID: {video_id}")
 
 
+def example_save_to_downloads():
+    """Example: Save transcript to Downloads folder for AI analysis"""
+    print("\n" + "=" * 60)
+    print("Example 6: Save Transcript to Downloads Folder")
+    print("=" * 60)
+
+    video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+    try:
+        # Save as markdown (best for ChatGPT/Claude)
+        print("\nSaving transcript to Downloads folder...")
+        file_path = save_transcript_to_downloads(video_url, format_type='markdown')
+        print(f"\nSuccess! Transcript saved to:")
+        print(f"  {file_path}")
+        print("\nYou can now:")
+        print("  1. Open this file in your Downloads folder")
+        print("  2. Upload it to ChatGPT or Claude")
+        print("  3. Ask questions about the video content!")
+    except Exception as e:
+        print(f"\nError: {e}")
+
+
+def example_save_different_formats():
+    """Example: Save transcripts in different formats"""
+    print("\n" + "=" * 60)
+    print("Example 7: Save Transcripts in Different Formats")
+    print("=" * 60)
+
+    video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+    formats = {
+        'clean': 'Plain text, easy to read',
+        'markdown': 'Formatted with paragraphs (recommended)',
+        'timestamped': 'Includes timestamps for reference'
+    }
+
+    print("\nAvailable formats:")
+    for fmt, description in formats.items():
+        print(f"  - {fmt}: {description}")
+
+    try:
+        # Save in markdown format (recommended for AI)
+        print("\nSaving in MARKDOWN format (recommended for ChatGPT/Claude)...")
+        fetcher = YouTubeTranscriptFetcher()
+        path = fetcher.save_transcript(video_url, format_type='markdown')
+        print(f"  Saved to: {path}")
+
+        # Or use the convenience function
+        print("\nUsing convenience function:")
+        path = save_transcript_to_downloads(video_url)
+        print(f"  Saved to: {path}")
+
+    except Exception as e:
+        print(f"\nError: {e}")
+
+
+def example_custom_save_location():
+    """Example: Save to custom location"""
+    print("\n" + "=" * 60)
+    print("Example 8: Save to Custom Location")
+    print("=" * 60)
+
+    video_url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+    try:
+        from pathlib import Path
+
+        # Save to current directory
+        custom_dir = Path.cwd()
+        print(f"\nSaving to: {custom_dir}")
+
+        fetcher = YouTubeTranscriptFetcher()
+        path = fetcher.save_transcript(
+            video_url,
+            format_type='markdown',
+            output_dir=custom_dir,
+            filename='my_custom_transcript.md'
+        )
+        print(f"  Saved to: {path}")
+
+    except Exception as e:
+        print(f"\nError: {e}")
+
+
 if __name__ == "__main__":
     print("\nYouTube Transcript Fetcher - Examples\n")
 
@@ -120,6 +204,20 @@ if __name__ == "__main__":
     example_list_available_transcripts()
     example_multiple_languages()
 
+    # NEW: Examples for saving transcripts
+    print("\n" + "=" * 60)
+    print("SAVING TRANSCRIPTS FOR AI ANALYSIS")
+    print("=" * 60)
+
+    example_save_to_downloads()
+    example_save_different_formats()
+    example_custom_save_location()
+
     print("\n" + "=" * 60)
     print("All examples completed!")
+    print("=" * 60)
+    print("\nNext steps:")
+    print("  1. Check your Downloads folder for saved transcripts")
+    print("  2. Upload them to ChatGPT or Claude")
+    print("  3. Ask AI to analyze, summarize, or answer questions!")
     print("=" * 60)
